@@ -8,7 +8,7 @@ using namespace std;
 #define N 50
 
 
-struct Customer		//Khai báo 'câu trúc thông tin khách hàng 
+struct Customer		//Khai bï¿½o 'cï¿½u trï¿½c thï¿½ng tin khï¿½ch hï¿½ng 
 {
 	char Name[20];	//Ten
 	char ID[15];	//CMND 
@@ -17,7 +17,7 @@ struct Customer		//Khai báo 'câu trúc thông tin khách hàng
 	char Home[20];	//Que Quan
 };
 
-struct Employee		//Khai báo 'câu trúc thông tin nhân viên khách san.
+struct Employee		//Khai bï¿½o 'cï¿½u trï¿½c thï¿½ng tin nhï¿½n viï¿½n khï¿½ch san.
 {
 	char Name[20];	
 	char ID[15];	
@@ -36,17 +36,18 @@ Employee emp;
 int i, key;
 char fileName[] = "Danhsach.txt";
 char fileNameNV[] = "Nhanvien.txt";
+char stat[] = "SaoKe.txt";
 
 
 
-struct Inroom		//khai báo 'câu trúa thông tin phòng trong khách san.
+struct Inroom		//khai bï¿½o 'cï¿½u trï¿½a thï¿½ng tin phï¿½ng trong khï¿½ch san.
 {
-	Customer Cus;		//khai báo Customer Khach de truy cap thong tin khach hang
+	Customer Cus;		//khai bï¿½o Customer Khach de truy cap thong tin khach hang
 	//init();
 	int Bed;		//(1: giuong don || 2: giuong doi)
 	bool Status;	//(true = co nguoi dang o  || false = phong trong (empty))
 	bool Vip;		//(true = phong Vip (deluxe) || false = phong thuong (standard))
-	int Price;		//(giá phòng)
+	int Price;		//(giï¿½ phï¿½ng)
 	int Bill=0;		//(hoa don cua phong)
 	int Fixing;		//(sua chua phong)
 };
@@ -56,7 +57,7 @@ class Motel{
 public:	//Cac chuc nang chinh:
 
 	
-	//Thông tin phòng trong khach san:
+	//Thï¿½ng tin phï¿½ng trong khach san:
 	Inroom Room[N];	
 	
 	//Tong doanh thu:
@@ -65,7 +66,7 @@ public:	//Cac chuc nang chinh:
 	//Nhan vien:
 	Employee NV[N];
 	int Len=0;						//Length: so luong nhan vien
-	void Hire(Employee emp);		//hàm thuê nhân viên moi
+	void Hire(Employee emp);		//hï¿½m thuï¿½ nhï¿½n viï¿½n moi
 	void ShowEmployee();			//hien thi thong tin nhan vien
 	void Fired(char *empid);
 	void PaySalary();
@@ -73,9 +74,9 @@ public:	//Cac chuc nang chinh:
 		
 	//Thao tac thong tin tren phong:
 	void Create();					//khoi tao gia tri tung phong (Bed,Status,...)
-	void Rent(Customer x,int to);	//hàm dang ky khách thuê phòng
-	void Pay(int from);				//hàm thanh toán tien phong
-	void Change();					//hàm doi phòng cho khách
+	void Rent(Customer x,int to);	//hï¿½m dang ky khï¿½ch thuï¿½ phï¿½ng
+	void Pay(int from);				//hï¿½m thanh toï¿½n tien phong
+	void Change();					//hï¿½m doi phï¿½ng cho khï¿½ch
 	
 	
 	//Hien thi thong tin:
@@ -85,14 +86,14 @@ public:	//Cac chuc nang chinh:
 	void ShowRoomInfo(int i);
 	
 	//Cac loai dich vu:
-	void Complain(int i);			//ham "than phiên`": dùng khi có các vân de xay ra voi phong nhu chuyen phong,...
-	void Maintain(int i);			//ham "bao tri": dùng khi bao trì phòng
+	void Complain(int i);			//ham "than phiï¿½n`": dï¿½ng khi cï¿½ cï¿½c vï¿½n de xay ra voi phong nhu chuyen phong,...
+	void Maintain(int i);			//ham "bao tri": dï¿½ng khi bao trï¿½ phï¿½ng
 	void Service(int i);			//ham "dich vu": cac dich vu phu tro khach hang
 	
 	
 	//Cac chuc nang phu tro:
 	bool CheckID(char s[15]);		//kiem tra CMND hop le
-	void ResetInfo(int i);			//xoa toan bo thong tin hien tai cua phòng
+	void ResetInfo(int i);			//xoa toan bo thong tin hien tai cua phï¿½ng
 	void OneDay();					//ham dung de qua ngay moi
 	
 	
@@ -101,6 +102,8 @@ public:	//Cac chuc nang chinh:
 	void GhiFile(char fileName[]);	//ghi thong tin vao file
 	void DocFileNV(char fileNameNV[]);
 	void GhiFileNV(char fileNameNV[]);
+	void GhiThongKe(char stat[], char s[], int i, int y);
+	void DocThongKe(char stat[]);
 	
 	//Cac ham tao menu
 	void RoomManagement();
@@ -119,8 +122,6 @@ Customer InfoCus(Customer x);
 //void checkname( char *s);
 int keyPress(int Clear); 
 Employee InfoEmp(Employee emp);
-
-
 
 
 int main()
@@ -326,7 +327,7 @@ void Motel::InformationManagement()
 			break;
 		case 3:
 				//Hien thi tong doanh thu
-				printf("\n\t\tDoanh thu tinh toi hien tai:%d",Revenue);
+				printf("\n\t\tDoanh thu tinh toi hien tai: %d",Revenue);
 				break;
 		case 4: // sua thong tin khach hang
 			UpdateCusInfo(RoomNumber(i));
@@ -465,8 +466,9 @@ void Motel::DataManagement()
 		cout << "\n\t\t*************************";
 		cout << "\n\n\n\t\t1.Read data Customer from file.";
 		cout << "\n\t\t2.Write data Customer to file.";
-		cout << "\n\n\t\t3.Read data Employee from file.";
+		cout << "\n\t\t3.Read data Employee from file.";
 		cout << "\n\t\t4.Write data Employee to file.";
+		cout << "\n\t\t5.Read data Statistic from file.";
 		cout << "\n\t\t0.Return";
 		key=keyPress(1);
 
@@ -488,6 +490,10 @@ void Motel::DataManagement()
 			GhiFileNV(fileNameNV);
 			break;
 			
+		case 5: //doc file tu SaoKe.txt
+			DocThongKe(stat);
+			break;
+				
 		case 0: 
 			OneDay();
 			return;
@@ -566,9 +572,9 @@ void Motel::Pay(int from)
 // chuyen so phong cho khach
 void Motel::Change()
 {
-	printf("Nhap phong hien tai ");
+	printf("Nhap phong hien tai: ");
 	int from = RoomNumber(from);
-	printf("Nhap phong chuyen toi ");
+	printf("Nhap phong chuyen toi: ");
 	int to = RoomNumber(to);
 	if( Room[from].Status == true && Room[to].Status == false )	//kiem tra tinh trang phong
 	{
@@ -753,36 +759,50 @@ void Motel::Service(int i)
 				printf("Phi dich vu la: 50,000. ");
 				
 				Room[i].Bill += 50000;
+				
+				GhiThongKe(stat,"don dep",i,50000);
+
 				break;
 			case 2:
 				printf("Da thuc hien giat ui. ");
 				printf("Phi dich vu la: 70,000. ");
 				
 				Room[i].Bill += 70000;
+				
+				GhiThongKe(stat,"giat ui",i,70000);
+				
 				break;
 			case 3:
 				printf("Da thuc hien don ly chen. ");
 				printf("Phi dich vu la: 50,000. ");
 				
 				Room[i].Bill += 50000;
+				
+				//
+				
 				break;
 			case 4:
 				printf("Thuc an da duoc don len. ");
 				printf("Chi phi thuc an va phi dich vu: 1,000,000. ");
 				
 				Room[i].Bill += 1000000;
+				
+				GhiThongKe(stat,"do an nhanh",i,1000000);
+				
 				break;
 			case 5:
 				printf("Thuoc la da duoc phuc vu. ");
 				printf("Chi phi san pham va phi dich vu: 20,000. ");
 				
 				Room[i].Bill += 20000;
+				
+				GhiThongKe(stat,"thuoc la",i,20000);
+				
 				break;
 			case 6:
 				printf("Da phuc vu. ");
 				printf("Chi phi dich vu: 600,000. ");
 				
-				Room[i].Bill += 600000;
 				break;
 			case 7:
 				{
@@ -792,12 +812,18 @@ void Motel::Service(int i)
 						case 1:
 							printf("Da cho thue xe may");
 							printf("Chi phi dich vu: 180,000");
+							
 							Room[i].Bill += 180000;
+							
+							GhiThongKe(stat,"thue xe may",i,180000);
 							break;
 						case 2:
 							printf("Da cho thue xe oto");
 							printf("Chi phi dich vu: 1,200,000");
+							
 							Room[i].Bill += 1200000;
+							
+							GhiThongKe(stat,"thue xe oto",i,1200000);
 							break;
 						default:
 							printf("Khong co lua chon nay");
@@ -970,6 +996,25 @@ void Motel::DocFileNV(char fileNameNV[])
 	
 }
 
+//ham doc file Statistic (thong ke)
+void Motel::DocThongKe(char stat[]){
+	FILE * fp;
+	char s[500];
+	
+	fp = fopen (stat, "r");
+	cout << endl;
+	cout << "Chuan bi doc file: "<< stat <<".............."<<endl; //puts(fileName);
+	
+	
+	while (fgets(s, 500, fp) != NULL)
+    {
+        printf("%s", s);
+    }
+	
+	fclose (fp);
+	return ;	
+}
+
 // su dung ham nay  de tang tong Bill theo tung ngay
 void Motel::OneDay()
 {
@@ -1050,7 +1095,15 @@ void Motel::GhiFileNV(char fileNameNV[])
 	cout<<"Da ghi du lieu Nhan vien vao file thanh cong";
 }
 
+void Motel::GhiThongKe(char stat[], char s[], int i, int y){
+	FILE * fp;
+	fp = fopen(stat, "a");
 
+	fprintf(fp, "Khach hang %s da su dung dich vu %s voi gia %d\n",Room[i].Cus.Name,s,y);
+	
+	fclose(fp);
+	//printf("Da ghi lai thong tin sao ke");
+}
 
 void printLine(int n) 
 {
@@ -1068,7 +1121,7 @@ int RoomNumber(int i)
 {
 	do{
 		
-		printf("\nNhap so phong:");
+		printf("\nNhap so phong: ");
 		scanf("%d",&i);
 		
 	}while( i<1 || i>N );
